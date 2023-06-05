@@ -1,16 +1,17 @@
 package com.example.demo.service;
 
-import com.example.demo.model.TodoItem;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.model.TodoItem;
 @Service
 public class ServiceTodoItem {
     private List<TodoItem> todoItems = new ArrayList<>();
 
-    TodoItem item1 = new TodoItem(1);
-    TodoItem item2 = new TodoItem(2,"test", "test");
+    TodoItem item1 = new TodoItem(1,1 ,"bla", "bla");
+    TodoItem item2 = new TodoItem(2,3, "erstes Item", "erste Beschreibung");
 
 
     public List<TodoItem> getTodoItems() {
@@ -27,9 +28,9 @@ public class ServiceTodoItem {
 
    public void updateTodoItem(Integer id, TodoItem updatedItem){
        for (TodoItem item : todoItems) {
-           if (item.getId().equals(id)) {
+        if(item.getId().equals(id)){
                // Aktualisiere das TodoItem mit den Werten aus updatedItem
-               item.setTitle(updatedItem.getTitle());
+               item.setTitle(updatedItem.getTodo());
                item.setDescription(updatedItem.getDescription());
                return; // Beende die Methode, nachdem das TodoItem aktualisiert wurde
            }

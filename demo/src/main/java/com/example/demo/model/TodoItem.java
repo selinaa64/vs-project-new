@@ -1,38 +1,48 @@
 package com.example.demo.model;
 
 public class TodoItem {
-    public Integer id;
-    public String title;
-    public String description;
+    private String todo;
+    public Integer id; 
+    private int priority = 2;
+    String description; 
 
-    public TodoItem(Integer id, String title, String description){
+    public TodoItem(Integer id, int priority, String todo, String description){
         this.id=id;
-        this.title=title;
+
+        this.priority=priority;
+        this.todo=todo;
         this.description=description;
     }
 
     public TodoItem(Integer id){
         this.id=id;
     }
-
     public Integer getId(){
         return id;
     }
 
-    public String getTitle(){
-        return title;
+    public int getPriority(){
+        return priority;
+    }
+
+    public String getTodo(){
+        return todo;
     }
 
     public String getDescription(){
         return description;
     }
-
-    public void setId(Integer id){
-        this.id = id;
+    public void setId(int id){
+        this.id= id;
     }
 
-    public void setTitle(String title){
-        this.title=title;
+
+    public void setPriority(int priority){
+        this.priority = priority;
+    }
+
+    public void setTitle(String todo){
+        this.todo=todo;
     }
     public void setDescription(String description){
         this.description=description;
