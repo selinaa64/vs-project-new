@@ -10,3 +10,5 @@ EXPOSE 8080
 
 # Define the command to be executed when the container starts
 CMD mvn spring-boot:run
+
+#docker build -f Dockerfile -t demo:v0.1 .
