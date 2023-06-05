@@ -10,16 +10,19 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=matthias
       - POSTGRES_DB=mydb
-
-  todobackend:
-    image: <QUAYusername>todobackend:v0.1
+  backend: 
+    build: 
+      context: ./demo
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     depends_on:
       - postgresdb
 
-  todoui:
-    image: <QUAYusername>/todoui:v1
-    ports:
-      - 8090:8080
 
+  frontend: 
+    build: 
+      context: ./Frontend/VS/react-frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000

@@ -1,11 +1,13 @@
-docker build -f Dockerfile -t demo:v0.1
-docker run -d -p 8080:8080 --name base_container demo:v0.1
+docker build -f Dockerfile -t demo:v0.1 .
+docker run -d -p 8080:8080 --name backend_container demo:v0.1
 
 
 docker build -f Dockerfile -t app:v0.1
-docker ps -a -q | xargs docker rm
 
+docker build -f Dockerfile -t app:v0.1 .  ??
+docker run -d -p 3000:3000 --name frontend_container app:v0.1
 
+docker ps -a -q | ForEach-Object { docker rm $_ }
 
 docker ps -q | xargs docker stop
 docker ps -a -q | xargs docker rm
