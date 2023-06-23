@@ -8,7 +8,6 @@ public class TodoItem {
 
     public TodoItem(Integer id, int priority, String todo, String description){
         this.id=id;
-
         this.priority=priority;
         this.todo=todo;
         this.description=description;

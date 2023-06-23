@@ -2,13 +2,12 @@ package com.example.demo.controller;
 import com.example.demo.service.ServiceTodoItem;
 import com.example.demo.model.TodoItem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@SpringBootApplication
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/todo")
 public class ApiController {
@@ -33,10 +32,10 @@ public class ApiController {
         return service.getTodoItemById(id);
     }
 
-    @PostMapping("/{id}")
-    public void setTodoItem(@PathVariable Integer id){
-        TodoItem item = new TodoItem(id);
-        service.setTodoItem(item);
+    @PostMapping("/")
+    public TodoItem setTodoItem(@RequestBody TodoItem item){
+       // TodoItem item = new TodoItem(todo);
+        return service.setTodoItem(item);
     }
 
 

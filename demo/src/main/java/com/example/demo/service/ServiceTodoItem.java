@@ -15,15 +15,20 @@ public class ServiceTodoItem {
 
 
     public List<TodoItem> getTodoItems() {
+        if(!(todoItems.contains(item1)) || (!(todoItems.contains(item1)))){
         todoItems.add(item1);
         todoItems.add(item2);
+        }
+
         return todoItems;
     }
     public TodoItem getTodoItemById(Integer id) {
         return todoItems.stream().filter(item ->item.id.equals(id)).findFirst().orElse(null);
     }
-    public void setTodoItem(TodoItem item){
-        todoItems.add(item);
+    public TodoItem setTodoItem(TodoItem item){
+        TodoItem newItem = new TodoItem(item.getId(), item.getPriority(), item.getDescription(), item.getTodo());
+        todoItems.add(newItem);
+        return newItem;
     }
 
    public void updateTodoItem(Integer id, TodoItem updatedItem){
