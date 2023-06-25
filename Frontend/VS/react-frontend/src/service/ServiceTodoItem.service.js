@@ -4,6 +4,7 @@ import http from "../http-common";
 class ServiceTodoItem{
 
     getTodos(){
+       
         return http.get("/").then(response =>response.data)
         .catch(err=>{
         console.log(err, "error");
@@ -19,7 +20,6 @@ class ServiceTodoItem{
 
     }
     createTodo(todo){
-        console.log(todo)
         return http.post("/", todo)
         .then(response => response.data)
         .catch(err=>{

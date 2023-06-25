@@ -1,47 +1,45 @@
 package com.example.demo.model;
 
-public class TodoItem {
-    private String todo;
-    public Integer id; 
-    private int priority = 2;
-    String description; 
+import jakarta.persistence.Entity;
 
-    public TodoItem(Integer id, int priority, String todo, String description){
+
+import jakarta.persistence.Id;
+@Entity
+public class TodoItem {
+    @Id
+    public long id; 
+    public String name;
+    public String description; 
+
+    public TodoItem(){
+        
+    }
+    public TodoItem(long id,String name, String description){
         this.id=id;
-        this.priority=priority;
-        this.todo=todo;
+        this.name = name;
         this.description=description;
     }
 
-    public TodoItem(Integer id){
+    public TodoItem(long id){
         this.id=id;
     }
-    public Integer getId(){
+    public long getId(){
         return id;
     }
 
-    public int getPriority(){
-        return priority;
-    }
 
-    public String getTodo(){
-        return todo;
+    public String getName(){
+        return name;
     }
 
     public String getDescription(){
         return description;
     }
-    public void setId(int id){
+    public void setId(long id){
         this.id= id;
     }
-
-
-    public void setPriority(int priority){
-        this.priority = priority;
-    }
-
-    public void setTitle(String todo){
-        this.todo=todo;
+    public void setName(String name){
+        this.name=name;
     }
     public void setDescription(String description){
         this.description=description;

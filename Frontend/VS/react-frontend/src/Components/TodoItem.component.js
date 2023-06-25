@@ -1,6 +1,5 @@
 import React, {Component} from "react"; 
 import ServiceTodoItem from "../service/ServiceTodoItem.service"
-import FormGroup from '@mui/material/FormGroup';    
 
 
 class TodoItem extends Component{
@@ -8,64 +7,66 @@ constructor(props){
         super(props);
         this.state={
             todos:[], 
-            todo: "",
             id: "",
-            priority: "",
+            name: "",
             description: "",
         }
         this.delete=this.delete.bind(this);
         this.handleChange=this.handleChange.bind(this)
         this.handleSubmit=this.handleSubmit.bind(this)
       }
-    componentDidMount() {
+      componentDidMount() {
         ServiceTodoItem.getTodos()
           .then((response) => {
-            if (response.length > 0) {
+            if (Array.isArray(response) && response.length > 0) {
               this.setState({ todos: response });
             }
           })
-          .catch((e) => {
-            console.log(e);
+          .catch((error) => {
+            console.error("Error retrieving todos:", error);
           });
       }
-    
+      getTodos(){
+        ServiceTodoItem.getTodos()
+        .then((response) => {
+          if (Array.isArray(response) && response.length > 0) {
+            this.setState({ todos: response });
+          }
+        })
+        .catch((error) => {
+          console.error("Error retrieving todos:", error);
+        });
+      }
       handleChange(event){
         event.preventDefault()
         let name = event.target.name
         let value = event.target.value
-        console.log(name)
         this.setState({
             [name]:value
         })
     }
     handleSubmit(event){
       event.preventDefault();
-      const { todo, id, priority, description } = this.state;
-     
-     console.log(event)
+      const { id, name, description } = this.state;
       ServiceTodoItem.createTodo({
-        todo, id, priority, description 
-      })
+        id: id,
+        name: name,
+        description: description      })
       .then((response) => {
         // Todo erfolgreich erstellt
         console.log("Todo erstellt:", response);
         // Hier können Sie weitere Aktionen ausführen, z. B. die Anzeige aktualisieren
         this.setState({
-          todo: "",
           id: "",
-          priority: "",
+          name: "",
           description: "",
         });
-            ServiceTodoItem.getTodos()
-            .then((response) => {
-              if (response.length > 0) {
-                this.setState({ todos: response });
-              }
-            })          })
+                    })
           .catch((error) => {
             console.error("Fehler beim Erstellen des Todos:", error);
             // Hier können Sie eine Fehlerbehandlung implementieren
           });
+          this.getTodos();
       }
   
       delete(id) {
@@ -83,58 +84,55 @@ constructor(props){
 
     
     render(){
-        const { todos, todo, id, priority, description} = this.state; 
+        const { todos, id, name, description} = this.state; 
+ 
         return (
         <div>
-            <h1>TodoItems</h1>
-            <ul>
-            {todos.map((todo) => (
-            <li className="todo-container" key={todo.id}>
-              <p>
-                {todo.todo} 
-              </p>
-              id: {todo.id} | Prio: {todo.priority} | Beschreibung: {todo.description}
-              <button
-                className="deleteButton"
-                onClick={() => this.delete(todo.id)}
-              >
-                Löschen
-              </button>
-              </li> 
-            
-            ))}
-            </ul>   
+              <h1>TodoItems</h1>
+              {todos && todos.length > 0 ? (
+              <ul>
+                {todos.map((todo) => (
+                  todo && (
+                    <li className="todo-container" key={todo.id}>
+                      <p>{todo.name}</p>
+                      id: {todo.id} | Beschreibung: {todo.description}
+                      <button
+                        className="deleteButton"
+                        onClick={() => this.delete(todo.id)}
+                      >
+                        Löschen
+                      </button>
+                    </li>
+                  )
+                ))}
+              </ul>
+            ) : (
+              <div>Keine Todos vorhanden</div>
+            )}
             <form onSubmit={this.handleSubmit}>    
+   
+             <label>id: </label> 
+             <input
+              type="number"
+              id="id"
+              name="id"
+              value={id  || ''} 
+              onChange={this.handleChange}
+            />   
              <label>Name: </label> 
              <input
               type="text"
-              id="todo"
-              name="todo"
-              value={todo}
+              id="name"
+              name="name"
+              value={name || ''} 
               onChange={this.handleChange}
-            />
-             <label>id: </label> 
-             <input
-              type="text"
-              id="id"
-              name="id"
-              value={id}
-              onChange={this.handleChange}
-            />             
-             <label>Prio: </label> 
-             <input
-              type="text"
-              id="priority"
-              name="priority"
-              value={priority}
-              onChange={this.handleChange}
-            />
+            />          
              <label>Beschreibung: </label> 
              <input
               type="text"
               id="description"
               name="description"
-              value={description}
+              value={description  || ''} 
               onChange={this.handleChange}
             />
              <input type="submit" value="Submit" />

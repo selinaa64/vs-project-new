@@ -2,7 +2,8 @@ package com.example.demo.controller;
 import com.example.demo.service.ServiceTodoItem;
 import com.example.demo.model.TodoItem;
 import org.springframework.beans.factory.annotation.Autowired;
-
+//import com.example.demo.repository.TodoRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,36 +17,30 @@ public class ApiController {
     @Autowired
     private ServiceTodoItem service;
 
-
-    @GetMapping("/test")
-    public String sayHello(){
-        return "Hi was geht";
-    }
-
     @GetMapping("/")
     public List<TodoItem> getTodoItems(){
         return service.getTodoItems();
     }
 
-    @GetMapping("/{id}")
-    public TodoItem getTodoById(@PathVariable Integer id){
-        return service.getTodoItemById(id);
-    }
-
     @PostMapping("/")
     public TodoItem setTodoItem(@RequestBody TodoItem item){
-       // TodoItem item = new TodoItem(todo);
+        //TodoItem newItem = new TodoItem(item.getId(), item.getPriority(),item.getTodo(), item.getDescription());
         return service.setTodoItem(item);
     }
 
 
     @PutMapping("/{id}")
-    public void updateTodoItem(@PathVariable Integer id, @RequestBody TodoItem todoItem) {
+    public void updateTodoItem(@PathVariable long id, @RequestBody TodoItem todoItem) {
         service.updateTodoItem(id, todoItem);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTodoItem(@PathVariable Integer id){
-        service.deleteTodoItem(id);
+    public ResponseEntity<String> deleteTodo(@PathVariable Long id) {
+        boolean deleted = service.deleteTodoItem(id);
+        if (deleted) {
+            return ResponseEntity.ok("Todo successfully deleted");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
