@@ -1,23 +1,36 @@
-version: '3.1'
+version: '3.3'
+
+networks:
+  todos:
+    driver: bridge
 
 services:
-
-  postgresdb:
-    image: postgres:14.1-alpine
-    ports:
-      - 5432:5432
+  mysqldb:
+    image: mysql:latest
+    container_name: mysqldb-composed
     environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=matthias
-      - POSTGRES_DB=mydb
-  backend: 
+      MYSQL_ROOT_PASSWORD: rickele12
+      MYSQL_DATABASE: todo
+      
+    command: --pid-file=/var/run/mysqld/mysqld.pid
+    networks:
+      - todos
+
+
+
+
+  backend:
     build: 
       context: ./demo
       dockerfile: Dockerfile
     ports:
       - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/todo
     depends_on:
-      - postgresdb
+      - mysqldb
+    networks:
+      - todos
 
 
   frontend: 
@@ -26,3 +39,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+    networks:
+      - todos
+
