@@ -14,13 +14,14 @@ services:
 
 
   backend:
+    image: backend:v0.1
     build: 
       context: ./demo
       dockerfile: Dockerfile
     ports:
       - 8080:8080
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb-1:3307/todo
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3307/todo
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=rickele12
     depends_on:
