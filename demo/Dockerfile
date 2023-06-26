@@ -9,6 +9,6 @@ COPY . .
 EXPOSE 8080
 
 # Define the command to be executed when the container starts
-RUN ./mvnw package -DskipTests
-
+CMD mvn spring-boot:run
+#CMD ["java", "-jar", "demo.jar"]
 #docker build -f Dockerfile -t demo:v0.1 .
